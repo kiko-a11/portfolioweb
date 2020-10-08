@@ -116,7 +116,7 @@
                                 <figcaption th:text="${link.displayName}"></figcaption>
                             </figure>
                             <figure class="inline-block" th:if="${link.thumbnailFlag} == False">
-                                <a th:href="${link.url}" target="_blank" rel="noopener noreferrer"><img class="thumbnail-pw img-thumbnail" th:src="@{\PortfolioWeb\resources\common\no_img_new.png}"></img></a>
+                                <a th:href="${link.url}" target="_blank" rel="noopener noreferrer"><img class="thumbnail-pw img-thumbnail" th:src="@{/resources/common/no_img_new.png}"></img></a>
                                 <figcaption th:text="${link.displayName}"></figcaption>
                             </figure>
                         </span>
@@ -136,7 +136,7 @@
                                 <figcaption th:text="${fileLink.displayName}"></figcaption>
                             </figure>
                             <figure class="inline-block" th:if="${fileLink.thumbnailFlag} == False">
-                                <a th:href="@{${fileLink.dataFilePath}}" th:download="${fileLink.dataFileName}"><img class="thumbnail-pw img-thumbnail" th:src="@{\PortfolioWeb\resources\common\no_img_download.png}"></img></a>
+                                <a th:href="@{${fileLink.dataFilePath}}" th:download="${fileLink.dataFileName}"><img class="thumbnail-pw img-thumbnail" th:src="@{/resources/common/no_img_download.png}"></img></a>
                                 <figcaption th:text="${fileLink.displayName}"></figcaption>
                             </figure>
                         </span>
