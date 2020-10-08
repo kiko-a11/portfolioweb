@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.summit_tech.domain.repository.FileLinkMapper">
+    <resultMap type="jp.summit_tech.domain.model.FileLink" id="fileLink">
+        <id column="id" property="id" />
+        <result column="project_id" property="projectId" />
+        <result column="sort_no" property="sortNo" />
+        <result column="display_name" property="displayName" />
+        <result column="data_file_name" property="dataFileName" />
+        <result column="thumbnail_flag" property="thumbnailFlag" />
+        <result column="thumbnail_file_name" property="thumbnailFileName" />
+    </resultMap>
+
+    <insert id="insert" parameterType="jp.summit_tech.domain.model.FileLink">
+        INSERT
+        INTO portfolio.t_files(
+            project_id
+            , sort_no
+            , display_name
+            , data_file_name
+            , thumbnail_flag
+            , thumbnail_file_name
+            , create_program
+            , update_program
+        )
+        VALUES (
+            #{projectId}
+            , #{sortNo}
+            , #{displayName}
+            , #{dataFileName}
+            , #{thumbnailFlag}
+            , #{thumbnailFileName}
+            , 'FileLinkMapper'
+            , 'FileLinkMapper'
+        );
+    </insert>
+
+    <select id="selectOne" parameterType="jp.summit_tech.domain.model.FileLink" resultMap="fileLink">
+        SELECT
+            id
+            , project_id
+            , sort_no
+            , display_name
+            , data_file_name
+            , thumbnail_flag
+            , thumbnail_file_name
+        FROM
+            portfolio.t_files
+        WHERE
+            id = #{id};
+    </select>
+
+    <select id="selectMany" parameterType="jp.summit_tech.domain.model.FileLink" resultMap="fileLink">
+         SELECT
+            id
+            , project_id
+            , sort_no
+            , display_name
+            , data_file_name
+            , thumbnail_flag
+            , thumbnail_file_name
+        FROM
+            portfolio.t_files
+        WHERE
+            project_id = #{projectId}
+        ORDER BY
+            sort_no, id;
+    </select>
+
+    <update id="updateOne" parameterType="jp.summit_tech.domain.model.FileLink">
+        UPDATE portfolio.t_files
+        SET
+            project_id = #{projectId}
+            , sort_no = #{sortNo}
+            , display_name = #{displayName}
+            , data_file_name = #{dataFileName}
+            , thumbnail_flag = #{thumbnailFlag}
+            , thumbnail_file_name = #{thumbnailFileName}
+            , update_program = 'FileLinkMapper'
+            , update_date = CURRENT_TIMESTAMP
+        WHERE
+            id = #{id};
+    </update>
+
+    <delete id="deleteOne" parameterType="jp.summit_tech.domain.model.FileLink">
+        DELETE
+        FROM
+            portfolio.t_files
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

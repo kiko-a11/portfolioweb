@@ -1,0 +1,14 @@
+<head>
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="head_fragment()">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_context_path" th:content="${#httpServletRequest.getContextPath()}"/>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet"></link>
+    <script type="text/javascript" th:src="@{/js/jquery-3.5.1.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <!--   <link href="../../css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"></link> -->
+    <link th:href="@{/css/css.css}" rel="stylesheet"></link>
+    <script type="text/javascript" th:src="@{/js/time.js}"></script>
+</th:block>
+</head>

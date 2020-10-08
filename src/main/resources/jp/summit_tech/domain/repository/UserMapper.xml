@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.summit_tech.domain.repository.UserMapper">
+    <resultMap type="jp.summit_tech.domain.model.User" id="user">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="authority" property="authority" />
+    </resultMap>
+
+    <insert id="insert" parameterType="jp.summit_tech.domain.model.User">
+        INSERT
+        INTO portfolio.t_users(
+            id
+            , name
+            , authority
+            , password
+            , create_program
+            , update_program
+        )
+        VALUES (
+            #{id}
+            , #{name}
+            , #{authority}
+            , #{password}
+            , 'UserMapper'
+            , 'UserMapper'
+        );
+    </insert>
+
+    <select id="selectOne" parameterType="jp.summit_tech.domain.model.User" resultMap="user">
+        SELECT
+              id                                          -- id
+            , name                                        -- name
+            , authority                                   -- authority
+        FROM
+            portfolio.t_users
+        WHERE
+            id = #{id}
+        ORDER BY
+            id;
+    </select>
+
+    <select id="selectMany" parameterType="jp.summit_tech.domain.model.User" resultMap="user">
+        SELECT
+              id                                          -- id
+            , name                                        -- name
+            , authority                                   -- authority
+        FROM
+            portfolio.t_users
+        WHERE
+            authority = #{authority}
+        ORDER BY
+            id;
+    </select>
+
+    <update id="updateOne" parameterType="jp.summit_tech.domain.model.User">
+        UPDATE portfolio.t_users
+        SET
+            name = #{name}
+            , authority = #{authority}
+            , password = #{password}
+            , update_program = 'UserMapper'
+            , update_date = CURRENT_TIMESTAMP
+        WHERE
+            id = #{id};
+    </update>
+
+    <delete id="deleteOne" parameterType="jp.summit_tech.domain.model.User">
+        DELETE
+        FROM
+            portfolio.t_users
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

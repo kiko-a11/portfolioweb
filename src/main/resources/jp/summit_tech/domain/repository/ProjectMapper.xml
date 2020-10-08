@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.summit_tech.domain.repository.ProjectMapper">
+    <resultMap type="jp.summit_tech.domain.model.Project" id="project">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="sort_no" property="sortNo" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+        <result column="name" property="name" />
+        <result column="overview" property="overview" />
+        <result column="memo" property="memo" />
+    </resultMap>
+
+    <insert id="insert" parameterType="jp.summit_tech.domain.model.Project">
+        INSERT
+        INTO portfolio.t_projects(
+            user_id
+            , sort_no
+            , start_date
+            , end_date
+            , name
+            , overview
+            , memo
+            , create_program
+            , update_program
+        )
+        VALUES (
+            #{userId}
+            , #{sortNo}
+            , #{startDate}
+            , #{endDate}
+            , #{name}
+            , #{overview}
+            , #{memo}
+            , 'ProjectMapper'
+            , 'ProjectMapper'
+        );
+    </insert>
+
+    <select id="selectOne" parameterType="jp.summit_tech.domain.model.Project" resultMap="project">
+        SELECT
+              id                                          -- id
+            , user_id                                     -- user_id
+            , sort_no                                     -- sort_no
+            , start_date
+            , end_date
+            , name                                        -- name
+            , overview                                    -- overview
+            , memo                                        -- memo
+        FROM
+            portfolio.t_projects
+        WHERE
+            id = #{id};
+    </select>
+
+    <select id="selectMany" parameterType="jp.summit_tech.domain.model.Project" resultMap="project">
+         SELECT
+              id                                          -- id
+            , user_id                                     -- user_id
+            , sort_no                                     -- sort_no
+            , start_date
+            , end_date
+            , name                                        -- name
+            , overview                                    -- overview
+            , memo                                        -- memo
+        FROM
+            portfolio.t_projects
+        WHERE
+            user_id = #{userId}
+        ORDER BY
+            sort_no, id;
+    </select>
+
+    <update id="updateOne" parameterType="jp.summit_tech.domain.model.Project">
+        UPDATE portfolio.t_projects
+        SET
+            user_id = #{userId}
+            , sort_no = #{sortNo}
+            , start_date = #{startDate}
+            , end_date = #{endDate}
+            , name = #{name}
+            , overview = #{overview}
+            , memo = #{memo}
+            , update_program = 'ProjectMapper'
+            , update_date = CURRENT_TIMESTAMP
+        WHERE
+            id = #{id};
+    </update>
+
+    <delete id="deleteOne" parameterType="jp.summit_tech.domain.model.Project">
+        DELETE
+        FROM
+            portfolio.t_projects
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

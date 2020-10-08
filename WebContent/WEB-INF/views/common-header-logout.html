@@ -1,0 +1,15 @@
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+    <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="header_fragment()">
+        <header>
+            <input type="hidden" id="userId" th:value="${userId}">
+
+            <nav class="navbar navbar-expand-md navbar-dark bg-pw">
+                <a class="navbar-brand" th:href="@{/login}">Summit-tech</a>
+            </nav>
+        </header>
+        <br>
+    </th:block>
+</body>

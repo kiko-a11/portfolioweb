@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="common-head :: head_fragment" />
+<!-- <script type="text/javascript" th:src="@{/js/regist.js}"></script> -->
+<title>ログイン</title>
+</head>
+
+<body>
+    <th:block th:replace="common-header-logout :: header_fragment" />
+    <form th:action="@{/loginprocessing}" method="post">
+        <div class="container-fluid">
+            <div class="container-pw">
+                <div class="row head-color-row-pw">
+                    <div class="col-lg-12">
+                        <span class="head-pw" th:text="ログイン"></span>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label class="control-label head-light-pw">ID</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input class="form-control" type="text" name="user">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label class="control-label head-light-pw">パスワード</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input class="form-control" type="password" name="pass">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="submit" class="btn btn-primary" value="ログイン">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="msg" th:text="${msg}"></p>
+                <p th:if="${param.error != null}" class="msg">IDまたはパスワードが違います</p>
+                <p th:if="${param.warn != logout}" class="msg">ログアウトしました</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <a th:href="@{/regist}">新規登録はこちら</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

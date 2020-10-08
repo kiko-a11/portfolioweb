@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="common-head :: head_fragment" />
+<script type="text/javascript" th:src="@{/js/user-setting.js}"></script>
+<title>ユーザー情報入力</title>
+</head>
+
+<body>
+    <th:block th:replace="common-header :: header_fragment" />
+    <form th:action="@{/user-setting}" th:object="${userSettingForm}" method="post">
+        <div class="container-fluid">
+            <h3 class="d-block d-lg-none">ユーザー情報入力</h3>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="msg" th:text="${msg}"></p>
+                </div>
+            </div>
+            <div class="container-pw">
+                <input type="hidden" th:field="*{token}">
+                <input type="hidden" th:field="*{userSetting.userId}">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1">
+                            <label class="control-label head-light-pw">名前</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input class="form-control" type="text" th:field="*{userSetting.name}">
+                            <div class="err" th:if="${#fields.hasErrors('userSetting.name')}" th:errors="*{userSetting.name}"></div>
+                            <label><input type="checkbox" value="1" th:field="*{userSetting.nameFlag}">非公開</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1">
+                            <label class="control-label head-light-pw">性別</label>
+                        </div>
+                        <div class="col-lg-11">
+                            <div class="radio">
+                                <label><input type="radio" th:field="*{userSetting.sex}" value="001">男性</label> <label><input type="radio" th:field="*{userSetting.sex}" value="002">女性</label>
+                                <label><input type="radio" th:field="*{userSetting.sex}" value="999">その他</label>
+                                <div>
+                                    <label><input type="checkbox" value="1" th:field="*{userSetting.sexFlag}">非公開</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1">
+                            <label class="control-label head-light-pw">生年月日</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <input class="form-control" type="date" th:field="*{userSetting.birthday}"> <label><input type="checkbox" value="1" th:field="*{userSetting.birthdayFlag}">非公開</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1">
+                            <label class="control-label head-light-pw">地域(都道府県)</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <input class="form-control" type="text" th:field="*{userSetting.area}">
+                            <div class="err" th:if="${#fields.hasErrors('userSetting.area')}" th:errors="*{userSetting.area}"></div>
+                            <label><input type="checkbox" value="1" th:field="*{userSetting.areaFlag}">非公開</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1">
+                            <label class="control-label head-light-pw">得意分野</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input class="form-control" type="text" th:field="*{userSetting.specialty}">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1">
+                            <label class="control-label head-light-pw">資格</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input class="form-control" type="text" th:field="*{userSetting.qualification}">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1">
+                            <label class="control-label head-light-pw">自己PR</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea class="form-control" rows="10" th:field="*{userSetting.pr}"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="submit" class="btn btn-primary" value="保存">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

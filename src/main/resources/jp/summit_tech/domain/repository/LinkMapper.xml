@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.summit_tech.domain.repository.LinkMapper">
+    <resultMap type="jp.summit_tech.domain.model.Link" id="link">
+        <id column="id" property="id" />
+        <result column="project_id" property="projectId" />
+        <result column="sort_no" property="sortNo" />
+        <result column="url" property="url" />
+        <result column="display_name" property="displayName" />
+        <result column="thumbnail_flag" property="thumbnailFlag" />
+        <result column="thumbnail_file_name" property="thumbnailFileName" />
+    </resultMap>
+
+    <insert id="insert" parameterType="jp.summit_tech.domain.model.Link">
+        INSERT
+        INTO portfolio.t_links(
+            project_id
+            , sort_no
+            , url
+            , display_name
+            , thumbnail_flag
+            , thumbnail_file_name
+            , create_program
+            , update_program
+        )
+        VALUES (
+            #{projectId}
+            , #{sortNo}
+            , #{url}
+            , #{displayName}
+            , #{thumbnailFlag}
+            , #{thumbnailFileName}
+            , 'LinkMapper'
+            , 'LinkMapper'
+        );
+    </insert>
+
+    <select id="selectOne" parameterType="jp.summit_tech.domain.model.Link" resultMap="link">
+        SELECT
+            id
+            , project_id
+            , sort_no
+            , url
+            , display_name
+            , thumbnail_flag
+            , thumbnail_file_name
+        FROM
+            portfolio.t_links
+        WHERE
+            id = #{id};
+    </select>
+
+    <select id="selectMany" parameterType="jp.summit_tech.domain.model.Link" resultMap="link">
+         SELECT
+            id
+            , project_id
+            , sort_no
+            , url
+            , display_name
+            , thumbnail_flag
+            , thumbnail_file_name
+        FROM
+            portfolio.t_links
+        WHERE
+            project_id = #{projectId}
+        ORDER BY
+            sort_no, id;
+    </select>
+
+    <update id="updateOne" parameterType="jp.summit_tech.domain.model.Link">
+        UPDATE portfolio.t_links
+        SET
+            project_id = #{projectId}
+            , sort_no = #{sortNo}
+            , url = #{url}
+            , display_name = #{displayName}
+            , thumbnail_flag = #{thumbnailFlag}
+            , thumbnail_file_name = #{thumbnailFileName}
+            , update_program = 'LinkMapper'
+            , update_date = CURRENT_TIMESTAMP
+        WHERE
+            id = #{id};
+    </update>
+
+    <delete id="deleteOne" parameterType="jp.summit_tech.domain.model.Link">
+        DELETE
+        FROM
+            portfolio.t_links
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

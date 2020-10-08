@@ -1,0 +1,37 @@
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+    <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="header_fragment()">
+        <header>
+            <input type="hidden" id="userId" th:value="${userId}">
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-pw">
+                <a class="navbar-brand" th:href="@{/home}">Summit-tech</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav mr-auto">
+                        <a id="header-home" class="nav-item nav-link" th:href="@{/home}">経歴入力</a>
+                        <a id="header-user-setting" class="nav-item nav-link" th:href="@{/user-setting}">ユーザー情報入力</a>
+                        <a id="header-publish" class="nav-item nav-link new-open" th:href="@{/publish/{id}(id=${userId})}" target="_blank" rel="noopener noreferrer">公開用ページを表示</a>
+                    </div>
+                </div>
+                <span class="navbar-text d-none d-lg-block"> ようこそ <span th:text="${userName}"></span> さん <span id="clock"> <span id="time">----/--/-- --:--:--</span></span></span>
+            </nav>
+        </header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 text-right">
+                    <span class="gray-pw d-inline d-lg-none">ようこそ <span th:text="${userName}"></span> さん</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-right">
+                    <a th:href="@{/logout}">ログアウト</a>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>

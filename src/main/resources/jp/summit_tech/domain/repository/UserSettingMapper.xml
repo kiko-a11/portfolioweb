@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.summit_tech.domain.repository.UserSettingMapper">
+    <resultMap type="jp.summit_tech.domain.model.UserSetting" id="userSetting">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="name" property="name" />
+        <result column="name_flag" property="nameFlag" />
+        <result column="sex" property="sex" />
+        <result column="sex_flag" property="sexFlag" />
+        <result column="birthday" property="birthday" />
+        <result column="birthday_flag" property="birthdayFlag" />
+        <result column="area" property="area" />
+        <result column="area_flag" property="areaFlag" />
+        <result column="specialty" property="specialty" />
+        <result column="qualification" property="qualification" />
+        <result column="pr" property="pr" />
+    </resultMap>
+
+    <insert id="insert" parameterType="jp.summit_tech.domain.model.UserSetting">
+        INSERT
+        INTO portfolio.t_user_settings(
+            user_id
+            , name
+            , name_flag
+            , sex
+            , sex_flag
+            , birthday
+            , birthday_flag
+            , area
+            , area_flag
+            , specialty
+            , qualification
+            , pr
+            , create_program
+            , update_program
+        )
+        VALUES (
+            #{userId}
+            , #{name}
+            , #{nameFlag}
+            , #{sex}
+            , #{sexFlag}
+            , #{birthday}
+            , #{birthdayFlag}
+            , #{area}
+            , #{areaFlag}
+            , #{specialty}
+            , #{qualification}
+            , #{pr}
+            , 'UserSettingMapper'
+            , 'UserSettingMapper'
+        );
+    </insert>
+
+    <select id="selectOne" parameterType="jp.summit_tech.domain.model.UserSetting" resultMap="userSetting">
+        SELECT
+            id
+            , user_id
+            , name
+            , name_flag
+            , sex
+            , sex_flag
+            , birthday
+            , birthday_flag
+            , area
+            , area_flag
+            , specialty
+            , qualification
+            , pr
+        FROM
+            portfolio.t_user_settings
+        WHERE
+            user_id = #{userId};
+    </select>
+
+    <select id="selectMany" parameterType="jp.summit_tech.domain.model.UserSetting" resultMap="userSetting">
+        SELECT
+            id
+            , user_id
+            , name
+            , name_flag
+            , sex
+            , sex_flag
+            , birthday
+            , birthday_flag
+            , area
+            , area_flag
+            , specialty
+            , qualification
+            , pr
+        FROM
+            portfolio.t_user_settings
+        WHERE
+            user_id = #{userId}
+        ORDER BY
+            id;
+    </select>
+
+    <update id="updateOne" parameterType="jp.summit_tech.domain.model.UserSetting">
+        UPDATE portfolio.t_user_settings
+        SET
+            name = #{name}
+            , name_flag = #{nameFlag}
+            , sex = #{sex}
+            , sex_flag = #{sexFlag}
+            , birthday = #{birthday}
+            , birthday_flag = #{birthdayFlag}
+            , area = #{area}
+            , area_flag = #{areaFlag}
+            , specialty = #{specialty}
+            , qualification = #{qualification}
+            , pr = #{pr}
+            , update_program = 'UserSettingMapper'
+            , update_date = CURRENT_TIMESTAMP
+        WHERE
+            user_id = #{userId}
+    </update>
+
+    <delete id="deleteOne" parameterType="jp.summit_tech.domain.model.UserSetting">
+        DELETE
+        FROM
+            portfolio.t_user_settings
+        WHERE
+            user_id = #{userId}
+    </delete>
+</mapper>

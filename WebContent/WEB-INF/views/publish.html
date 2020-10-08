@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="common-head :: head_fragment" />
+<script type="text/javascript" th:src="@{/js/publish.js}"></script>
+<title>公開用ページ</title>
+</head>
+
+<body>
+    <th:block th:replace="common-header-logout :: header_fragment" />
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="msg" th:text="${msg}"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 offset-lg-8 col-sm-6 offset-sm-6">
+                <div class="input-group">
+                  <input type="text" class="form-control copy-clipboard" readonly>
+                  <span class="input-group-btn">
+                      <button class="btn btn-secondary copy-clipboard">公開用リンクをコピー</button>
+                  </span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 id="name" class="head-big-pw" th:if="${userSetting.name} and ${userSetting.nameFlag} == False" th:text="${userSetting.name}"></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 gray-pw">
+                <span id="birthday" th:if="${userSetting.birthday} and ${userSetting.birthdayFlag} == False" th:text="${userSetting.birthday} + '生'"></span>
+                <span id="age"></span>
+                <span th:if="${userSetting.sex} and ${userSetting.sexFlag} == False">
+                    <span id="sex" th:switch="${userSetting.sex}">
+                        <span th:case="001" th:text="男"></span>
+                        <span th:case="002" th:text="女"></span>
+                        <span th:case="*"></span>
+                    </span>
+                </span>
+            </div>
+        </div>
+        <div class="container-pw">
+            <div class="row border-row-pw">
+                <div class="col-lg-1">
+                    <span class="head-light-pw">地域</span>
+                </div>
+                <div class="col-lg-11">
+                    <span id="area" th:if="${userSetting.area} and ${userSetting.areaFlag} == False" th:text="${userSetting.area}"></span>
+                </div>
+            </div>
+            <div class="row border-row-pw">
+                <div class="col-lg-1">
+                    <span class="head-light-pw">得意分野</span>
+                </div>
+                <div class="col-lg-11">
+                    <span id="specialty" th:if="${userSetting.specialty}" th:text="${userSetting.specialty}"></span>
+                </div>
+            </div>
+            <div class="row border-row-pw">
+                <div class="col-lg-1">
+                    <span class="head-light-pw">資格</span>
+                </div>
+                <div class="col-lg-11">
+                    <span id="qualification" th:if="${userSetting.qualification}" th:text="${userSetting.qualification}"></span>
+                </div>
+            </div>
+            <div class="row border-row-pw">
+                <div class="col-lg-1">
+                    <span class="head-light-pw">自己PR</span>
+                </div>
+                <div class="col-lg-11">
+                    <span id="pr" th:if="${userSetting.pr}" th:text="${userSetting.pr}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="container-pw">
+            <div th:each="project, stat : ${projectList}">
+                <div class="row head-color-row-pw">
+                    <div class="col-lg-12">
+                        <span class="head-pw" th:text="'経歴' + ${stat.index + 1}"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span class="head-pw" th:text="'■' + ${project.name}" ></span>
+                        <span id="date" class="gray-pw" th:if="${project.startDate} and ${project.endDate}" th:text="'(' + ${project.startDate} + '～' +  ${project.endDate} + ')'"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span id="overview" th:if="${project.overview}" th:text="${project.overview}"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span id="memo" class="mini-data-pw gray-pw" th:if="${project.memo}" th:text="${project.memo}"></span>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span th:if="${project.linkList.size()}" class="head-light-pw" >関連リンク</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span th:each="link, linkStat : ${project.linkList}">
+                            <figure class="inline-block" th:if="${link.thumbnailFlag} == True">
+                                <a th:href="${link.url}" target="_blank" rel="noopener noreferrer"><img class="thumbnail-pw img-thumbnail" th:src="@{${link.thumbnailFilePath}}"></img></a>
+                                <figcaption th:text="${link.displayName}"></figcaption>
+                            </figure>
+                            <figure class="inline-block" th:if="${link.thumbnailFlag} == False">
+                                <a th:href="${link.url}" target="_blank" rel="noopener noreferrer"><img class="thumbnail-pw img-thumbnail" th:src="@{\PortfolioWeb\resources\common\no_img_new.png}"></img></a>
+                                <figcaption th:text="${link.displayName}"></figcaption>
+                            </figure>
+                        </span>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span th:if="${project.fileLinkList.size()}" class="head-light-pw" >添付ファイル</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span th:each="fileLink, fileLinkStat : ${project.fileLinkList}">
+                            <figure class="inline-block" th:if="${fileLink.thumbnailFlag}">
+                                <a th:href="@{${fileLink.dataFilePath}}" th:download="${fileLink.dataFileName}"><img class="thumbnail-pw img-thumbnail" th:src="@{${fileLink.thumbnailFilePath}}"></img></a>
+                                <figcaption th:text="${fileLink.displayName}"></figcaption>
+                            </figure>
+                            <figure class="inline-block" th:if="${fileLink.thumbnailFlag} == False">
+                                <a th:href="@{${fileLink.dataFilePath}}" th:download="${fileLink.dataFileName}"><img class="thumbnail-pw img-thumbnail" th:src="@{\PortfolioWeb\resources\common\no_img_download.png}"></img></a>
+                                <figcaption th:text="${fileLink.displayName}"></figcaption>
+                            </figure>
+                        </span>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

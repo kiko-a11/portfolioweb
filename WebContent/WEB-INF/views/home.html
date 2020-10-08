@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="common-head :: head_fragment" />
+<script type="text/javascript" th:src="@{/js/home.js}"></script>
+<title>ホーム</title>
+</head>
+
+<body>
+    <th:block th:replace="common-header :: header_fragment" />
+    <form th:action="@{/home}" th:object="${projectForm}" method="post" enctype="multipart/form-data">
+        <div class="container-xl" id="main-body-container">
+            <h3 class="d-block d-lg-none">経歴入力</h3>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="msg" th:text="${msg}"></p>
+                </div>
+            </div>
+            <input type="hidden" th:field="*{token}">
+            <div class="row-body project" th:each="_, stat : *{projectList}">
+                <input type="hidden" class="renumber" th:field="*{projectList[__${stat.index}__].id}">
+                <input type="hidden" class="renumber" th:field="*{projectList[__${stat.index}__].userId}">
+                <div class="container-pw container-bg-pw">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1">
+                                <label class="sort-renumber d-inline d-lg-none head-light-pw"></label>
+                                <label class="float-right sort-renumber d-none d-lg-inline head-light-pw"></label>
+                                <input type="hidden" class="sort-renumber" th:field="*{projectList[__${stat.index}__].sortNo}">
+                            </div>
+                            <div class="col-lg-1">
+                                <label class="control-label head-light-pw">期間</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="input-group">
+                                    <input type="date" class="form-control renumber" th:field="*{projectList[__${stat.index}__].startDate}">
+                                    <div>～</div>
+                                    <input type="date" class="form-control renumber" th:field="*{projectList[__${stat.index}__].endDate}">
+                                </div>
+                                <div class="err" th:if="${#fields.hasErrors('projectList[' + stat.index + '].startDate')}" th:errors="*{projectList[__${stat.index}__].startDate}"></div>
+                                <div class="err" th:if="${#fields.hasErrors('projectList[' + stat.index + '].endDate')}" th:errors="*{projectList[__${stat.index}__].endDate}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 offset-lg-1">
+                                <label class="control-label head-light-pw">経歴</label>
+                            </div>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control renumber inner-row" placeholder="経歴の名称" th:field="*{projectList[__${stat.index}__].name}">
+                                <div class="err" th:if="${#fields.hasErrors('projectList[' + stat.index + '].name')}" th:errors="*{projectList[__${stat.index}__].name}"></div>
+                                <textarea class="form-control renumber inner-row" rows="5" placeholder="概要" th:field="*{projectList[__${stat.index}__].overview}"></textarea>
+                            </div>
+                            <div class="col-lg-10 offset-lg-2">
+                                <div class="text-right-pw">
+                                    <button type="button" name="linkButton" class="btn btn-primary button-renumber inner-row" data-toggle="modal" th:data-target="${'#linkModal' + stat.index}">リンク編集</button>
+                                    <button type="button" name="fileButton" class="btn btn-primary button-renumber inner-row" data-toggle="modal" th:data-target="${'#fileModal' + stat.index}">添付ファイル編集</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 offset-lg-1">
+                                <label class="control-label head-light-pw">メモ</label>
+                            </div>
+                            <div class="col-lg-10">
+                                <textarea class="form-control renumber" rows="5" placeholder="メモ" th:field="*{projectList[__${stat.index}__].memo}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 text-right-pw">
+                            <button type="button" class="btn btn-secondary rounded-circle p-0 rounded-button project-delete">－</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade button-renumber" th:id="${'linkModal' + stat.index}" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">リンク編集</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid button-renumber" th:id="${'link-modal-body-container' + stat.index}">
+                                    <div class="row row-head link">
+                                        <div class="col-lg-3 offset-lg-1 d-none d-lg-block">
+                                            <label class="head-light-pw">リンク</label>
+                                        </div>
+                                        <div class="col-lg-2 d-none d-lg-block">
+                                            <label class="head-light-pw">画面表示名</label>
+                                        </div>
+                                        <div class="col-lg-6 d-none d-lg-block">
+                                            <label class="head-light-pw">サムネイル指定</label>
+                                        </div>
+                                    </div>
+                                    <div class="row row-body link border-row-pw" th:each="_, linkStat : *{projectList[__${stat.index}__].linkList}">
+                                        <input type="hidden" class="renumber" th:field="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].id}">
+                                        <input type="hidden" class="renumber" th:field="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].projectId}">
+                                        <div class="col-lg-12 margin-top">
+                                            <label class="sort-renumber d-inline d-lg-none head-light-pw"></label>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <label class="float-right sort-renumber head-light-pw d-none d-lg-inline"></label>
+                                            <input type="hidden" class="sort-renumber" th:field="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].sortNo}">
+                                        </div>
+                                        <div class="col-lg-12 d-inline d-lg-none margin-top">
+                                            <label class="head-light-pw">リンク</label>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <input type="text" class="form-control renumber" placeholder="http://xxxxxx.xxx"
+                                                th:field="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].url}">
+                                            <div class="err" th:if="${#fields.hasErrors('projectList[' + stat.index + '].linkList[' + linkStat.index + '].url')}"
+                                                th:errors="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].url}"></div>
+                                        </div>
+                                        <div class="col-lg-12 d-inline d-lg-none margin-top">
+                                            <label class="head-light-pw">画面表示名</label>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input type="text" class="form-control renumber" placeholder="画面表示名"
+                                                th:field="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].displayName}">
+                                            <div class="err" th:if="${#fields.hasErrors('projectList[' + stat.index + '].linkList[' + linkStat.index + '].displayName')}"
+                                                th:errors="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].displayName}"></div>
+                                        </div>
+                                        <div class="col-lg-12 d-inline d-lg-none margin-top">
+                                            <label class="head-light-pw">サムネイル指定</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label><input type="checkbox" class="fileUpload renumber"
+                                                        th:id="${'projectList' + stat.index + '.linkList' + linkStat.index + '.thumbnailFlag'}"
+                                                        th:name="${'projectList[' + stat.index + '].linkList[' + linkStat.index + '].thumbnailFlag'}"
+                                                        th:checked="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].thumbnailFlag}">指定する</label>
+                                                </div>
+                                                <div class="col-lg-8 form-group">
+                                                    <label class="fileUpload"><input type="file" class="renumber" accept="image/x-png,image/gif,image/jpeg"
+                                                        th:field="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].upload}">ファイル選択</label>
+                                                    <input type="text" readonly class="form-control renumber readonlyText"
+                                                        th:field="*{projectList[__${stat.index}__].linkList[__${linkStat.index}__].thumbnailFileName}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <button type="button" class="btn btn-secondary rounded-circle p-0 rounded-button link-delete margin-bottom">－</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary rounded-circle p-0 rounded-button link-add margin-top margin-bottom">＋</button>
+                                <div class="modal-footer">
+                                    <button type=button class="btn btn-primary" data-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade button-renumber" th:id="${'fileModal' + stat.index}" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">添付ファイル編集</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid button-renumber" th:id="${'file-modal-body-container' + stat.index}">
+                                    <div class="row row-head file">
+                                        <div class="col-lg-2 offset-lg-1 d-none d-lg-block">
+                                            <label class="head-light-pw">画面表示名</label>
+                                        </div>
+                                        <div class="col-lg-3 d-none d-lg-block">
+                                            <label class="head-light-pw">添付ファイル</label>
+                                        </div>
+                                        <div class="col-lg-6 d-none d-lg-block">
+                                            <label class="head-light-pw">サムネイル指定</label>
+                                        </div>
+                                    </div>
+                                    <div class="row row-body file border-row-pw" th:each="_, fileStat : *{projectList[__${stat.index}__].fileLinkList}">
+                                        <input type="hidden" class="renumber" th:field="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].id}">
+                                        <input type="hidden" class="renumber" th:field="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].projectId}">
+                                        <div class="col-lg-12 margin-top">
+                                            <label class="sort-renumber d-inline d-lg-none head-light-pw"></label>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <label class="float-right sort-renumber head-light-pw d-none d-lg-inline"></label>
+                                            <input type="hidden" class="sort-renumber" th:field="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].sortNo}">
+                                        </div>
+                                        <div class="col-lg-12 d-inline d-lg-none margin-top">
+                                            <label class="head-light-pw">画面表示名</label>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input type="text" class="form-control renumber" placeholder="画面表示名"
+                                                th:field="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].displayName}">
+                                            <div class="err" th:if="${#fields.hasErrors('projectList[' + stat.index + '].fileLinkList[' + fileStat.index + '].displayName')}"
+                                                th:errors="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].displayName}"></div>
+                                        </div>
+                                        <div class="col-lg-12 d-inline d-lg-none margin-top">
+                                            <label class="head-light-pw">添付ファイル</label>
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <label class="fileUpload"><input type="file" class="renumber"
+                                                th:field="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].dataFileUpload}">ファイル選択</label>
+                                            <input type="text" readonly class="form-control renumber readonlyText"
+                                                th:field="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].dataFileName}">
+                                            <div class="err" th:if="${#fields.hasErrors('projectList[' + stat.index + '].fileLinkList[' + fileStat.index + '].dataFileName')}"
+                                                th:errors="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].dataFileName}"></div>
+                                        </div>
+                                        <div class="col-lg-12 d-inline d-lg-none margin-top">
+                                            <label class="head-light-pw">サムネイル指定</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label><input type="checkbox" class="fileUpload renumber"
+                                                        th:id="${'projectList' + stat.index + '.fileLinkList' + fileStat.index + '.thumbnailFlag'}"
+                                                        th:name="${'projectList[' + stat.index + '].fileLinkList[' + fileStat.index + '].thumbnailFlag'}"
+                                                        th:checked="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].thumbnailFlag}">指定する</label>
+                                                </div>
+                                                <div class="col-lg-8 form-group">
+                                                    <label class="fileUpload"><input type="file" class="renumber" accept="image/x-png,image/gif,image/jpeg"
+                                                        th:field="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].thumbnailFileUpload}">ファイル選択</label>
+                                                    <input type="text" readonly class="form-control renumber readonlyText"
+                                                        th:field="*{projectList[__${stat.index}__].fileLinkList[__${fileStat.index}__].thumbnailFileName}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <button type="button" class="btn btn-secondary rounded-circle p-0 rounded-button file-delete margin-bottom">－</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary rounded-circle p-0 rounded-button file-add margin-top margin-bottom">＋</button>
+                                <div class="modal-footer">
+                                    <button type=button class="btn btn-primary" data-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-xl">
+            <div class="container-pw">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-secondary rounded-circle p-0 rounded-button project-add">＋</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input class="btn btn-primary" type="submit" value="保存">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
