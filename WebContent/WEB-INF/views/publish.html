@@ -52,6 +52,7 @@
                 </div>
                 <div class="col-lg-11">
                     <span id="area" th:if="${userSetting.area} and ${userSetting.areaFlag} == False" th:text="${userSetting.area}"></span>
+                    <span id="area2" th:if="${userSetting.areaFlag}" >非公開</span>
                 </div>
             </div>
             <div class="row border-row-pw">
