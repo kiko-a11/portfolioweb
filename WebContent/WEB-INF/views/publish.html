@@ -84,7 +84,7 @@
             <div th:each="project, stat : ${projectList}">
                 <div class="row head-color-row-pw">
                     <div class="col-lg-12">
-                        <span class="head-pw" th:text="'経歴' + ${stat.index + 1}"></span>
+                        <span class="head-pw" th:text="'ポートフォリオ' + ${stat.index + 1}"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -106,7 +106,7 @@
                 <br>
                 <div class="row">
                     <div class="col-lg-12">
-                        <span th:if="${project.linkList.size()}" class="head-light-pw" >関連リンク</span>
+                        <span th:if="${project.linkList.size()}" class="head-light-pw" >リンク</span>
                     </div>
                 </div>
                 <div class="row">

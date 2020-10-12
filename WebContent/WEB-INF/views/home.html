@@ -12,7 +12,7 @@
     <th:block th:replace="common-header :: header_fragment" />
     <form th:action="@{/home}" th:object="${projectForm}" method="post" enctype="multipart/form-data">
         <div class="container-xl" id="main-body-container">
-            <h3 class="d-block d-lg-none">経歴入力</h3>
+            <h3 class="d-block d-lg-none">ポートフォリオ入力</h3>
             <div class="row">
                 <div class="col-lg-12">
                     <p class="msg" th:text="${msg}"></p>
@@ -31,7 +31,7 @@
                                 <input type="hidden" class="sort-renumber" th:field="*{projectList[__${stat.index}__].sortNo}">
                             </div>
                             <div class="col-lg-1">
-                                <label class="control-label head-light-pw">期間</label>
+                                <label class="control-label head-light-pw">制作期間</label>
                             </div>
                             <div class="col-lg-5">
                                 <div class="input-group">
@@ -47,10 +47,10 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-lg-1 offset-lg-1">
-                                <label class="control-label head-light-pw">経歴</label>
+                                <label class="control-label head-light-pw">ポートフォリオ</label>
                             </div>
                             <div class="col-lg-10">
-                                <input type="text" class="form-control renumber inner-row" placeholder="経歴の名称" th:field="*{projectList[__${stat.index}__].name}">
+                                <input type="text" class="form-control renumber inner-row" placeholder="名称" th:field="*{projectList[__${stat.index}__].name}">
                                 <div class="err" th:if="${#fields.hasErrors('projectList[' + stat.index + '].name')}" th:errors="*{projectList[__${stat.index}__].name}"></div>
                                 <textarea class="form-control renumber inner-row" rows="5" placeholder="概要" th:field="*{projectList[__${stat.index}__].overview}"></textarea>
                             </div>
